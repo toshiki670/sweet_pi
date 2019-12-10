@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require "sweet_pi"
+require "sweet_pi/runner"
+
+puts SweetPi.test
+
+puts Runner.start
+puts ARGV

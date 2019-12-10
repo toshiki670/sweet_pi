@@ -1,4 +1,5 @@
 # SweetPi
+<a herf="LICENSE" alt="GPL-3.0"><img alt="GitHub" src="https://img.shields.io/github/license/toshiki670/sweet_pi?style=flat-square"></a>
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sweet_pi`. To experiment with that code, run `bin/console` for an interactive prompt.
 
@@ -32,4 +33,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sweet_pi.
+Bug reports and pull requests are welcome on GitHub at https://github.com/toshiki670/sweet_pi.
