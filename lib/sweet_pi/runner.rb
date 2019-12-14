@@ -4,16 +4,26 @@ require 'sweet_pi/version'
 module SweetPi
   class Runner < Thor
 
-    map %w[--version -v] => :__version
 
-    desc "hello NAME", "say hello to NAME"
-    def hello(name)
-      puts "Hello #{name}"
+
+
+
+    default_command :calc
+    desc "calc", "Calculate PI"
+    option :digit, aliases: :d, type: :numeric, default: 2, desc: "Number of digits in decimal part of PI."
+    option :thread, aliases: :t, type: :numeric, default: 1, desc: "CPU threads."
+    option :output, aliases: :o, type: :string, required: :true, desc: "Output destination."
+    option :result, aliases: :r, type: :string, desc: "Output of Processing result. standard output if not setting."
+    def calc
+      puts "test"
     end
 
-    desc "--version, -v", "print the version"
-    def __version
-      VERSION
+    map %w[--version -v] => :version
+    desc '--version, -v', 'print the version'
+    def version
+      puts VERSION
+    end
+
     end
 
   end
