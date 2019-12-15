@@ -3,13 +3,10 @@ require "sweet_pi/runner"
 require "thor"
 
 module SweetPi
-  class Error < StandardError; end
-  # Your code goes here...
+  class << self
 
 
-  def self.a
-    SweetPi::Runner.start(["-v"])
+
+
   end
-
 end
-
