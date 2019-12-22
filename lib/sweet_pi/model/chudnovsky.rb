@@ -10,7 +10,7 @@ module SweetPi
     C = 640320.freeze
     private_constant :A, :B, :C
 
-    using SweetPi::MathInteger
+    using SweetPi::Math::Factorial
 
     def self.single2(accuracy)
       sum = SweetPi::Math.sum(0, accuracy) do |k|
