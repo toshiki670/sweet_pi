@@ -6,18 +6,20 @@ module SweetPi
     # using SweetPi::Math::Fractorial
     module Factorial
       refine Integer do
-        def single_fact
-          (1..self).reduce(1, :*)
-        end
-        alias_method :!, :single_fact
 
-        def doable_fact
-          sum = 1
-          self.downto(2).each_with_index do |n, idx|
-            next if idx % 2 != 0
-            sum *= n
+        def !(step = 1)
+          raise ArgumentError unless step.is_a?(Integer) and 1 <= step
+
+          if step == 1
+            (1..self).reduce(1, :*)
+          else
+            sum = 1
+            self.downto(2).each_with_index do |n, idx|
+              next if idx % step != 0
+              sum *= n
+            end
+            sum
           end
-          sum
         end
       end
     end
