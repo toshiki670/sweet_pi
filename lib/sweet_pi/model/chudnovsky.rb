@@ -14,15 +14,35 @@ module SweetPi
 
     using SweetPi::Math::Factorial
 
-    def initialize(thread = 1)
-      @thread = thread
+    def initialize(thread_size = 1)
+      raise ArgumentError unless thread_size.is_a?(Integer) and 1 <= thread_size
+
+      @thread_size = thread_size
     end
+
+    def calc(digit)
+      accuracy = calc_accuracy(digit)
+
+      if @thread_size == 1
+        single_thread(accuracy)
+      else
+        threads = []
+
+        @thread_size.times do |thread_num|
+          threads << Thread.new(thread_num) do |num|
+            
+          end
+        end
+
+      end
+
+    end
+
+
 
     private
 
-    def single_thread(digit)
-      accuracy = calc_accuracy(digit)
-
+    def single_thread(accuracy)
       sum = SweetPi::Math.sum(0, accuracy) do |k|
         Rational(numerator(k), denominator(k))
       end
@@ -30,7 +50,8 @@ module SweetPi
       '1.0'.to_d / (12 * sum)
     end
 
-    def multi_thread(digit)
+    def multi_thread(accuracy, thread_num)
+
 
     end
 
