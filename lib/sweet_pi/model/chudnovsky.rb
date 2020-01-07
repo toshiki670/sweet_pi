@@ -31,18 +31,35 @@ module SweetPi
       accuracy = calc_accuracy(digit)
 
       threads = []
-
       thread_size.times do |thread_num|
-        threads << Thread.new(thread_num) do |num|
-          each_thread(accuracy, thread_num)
+        threads << Thread.new(accuracy, thread_size, thread_num) do |a, th_s, th_n|
+          Thread.pass
+          12 * each_thread(a, th_s, th_n)
         end
       end
+
+      '1.0'.to_d / threads.map(&:value).reduce(:+)
     end
 
     private
 
-    def each_thread(accuracy, thread_num)
+    def each_thread(accuracy, thread_size, thread_num)
+      f = Proc.new do |x|
+        base = thread_size * x
+        a = (thread_size - 1) * (x % 2)
+        b = thread_num * (1 - (x % 2) * 2)
+        base + a + b
+      end
 
+      sum = 0
+      x = 0
+      k = f.call(x)
+      while k <= accuracy do
+        sum += Rational(numerator(k), denominator(k))
+        x += 1
+        k = f.call(x)
+      end
+      sum
     end
 
     def calc_accuracy(digit)
