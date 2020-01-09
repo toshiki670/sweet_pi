@@ -5,31 +5,30 @@ module SweetPi
 
     def initialize(*argv, &block)
       @status_read, @status_write = IO.pipe
-      Marshal.dump(nil, @status_write)
       @value_read, @value_write = IO.pipe
-      Marshal.dump(nil, @value_write)
 
-      child_fork(*argv, &block)
+      child_fork(*argv, block)
     end
 
     def value
       Process.waitpid @pid
-      Marshal.load(value_read)
+      Marshal.load(@value_read)
     end
 
     private
 
-    def child_fork(*argv, &block)
+    def child_fork(*argv, block)
       @pid = Process.fork do
         @value_read.close
 
         status = :run
         Marshal.dump(status, @status_write)
 
-        result = block.call(argv)
+        result = block.call(*argv)
 
         status = false
-      rescue
+      rescue => e
+        raise e
         status = nil
         result = nil
       ensure
