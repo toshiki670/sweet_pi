@@ -74,17 +74,10 @@ module SweetPi
       k.!**3 * (3 * k).! * C**(3 * k + '1.5'.to_d)
     end
 
-    # WIP インデックスを往復
-    # もし、一方向にxを配置した場合、最初と最後の配列に以下のような差が発生する
-    # 配置する数値の最大をMAXとする
-    #
-    def round_trip(x, idx)
-      if x / idx % 2 == 0
-        x % idx
-      else
-        (idx - 1) - x % idx
-      end
+    def fix(digit, pi)
+      pi.floor(digit)
     end
+
 
   end
 end
