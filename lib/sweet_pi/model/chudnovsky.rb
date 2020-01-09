@@ -2,6 +2,7 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
 require 'sweet_pi/model/math'
+require 'sweet_pi/model/child_process'
 
 module SweetPi
   class Chudnovsky
@@ -14,40 +15,39 @@ module SweetPi
 
     using SweetPi::Math::Factorial
 
-    def initialize()
-    end
 
-    def single_thread(digit)
+    def single_process(digit)
       accuracy = calc_accuracy(digit)
 
       sum = SweetPi::Math.sum(0, accuracy) do |k|
         Rational(numerator(k), denominator(k))
       end
 
-      '1.0'.to_d / (12 * sum)
+      result = '1.0'.to_d / (12 * sum)
+      fix(digit, result)
     end
 
-    def multi_thread(digit, thread_size)
+    def multi_process(digit, process_size)
       accuracy = calc_accuracy(digit)
 
-      threads = []
-      thread_size.times do |thread_num|
-        threads << Thread.new(accuracy, thread_size, thread_num) do |a, th_s, th_n|
-          Thread.pass
-          12 * each_thread(a, th_s, th_n)
+      processes = []
+      process_size.times do |p_n|
+        processes << SweetPi::ChildProcess.new(accuracy, process_size, p_n) do |a, p_s, p_n|
+          each_process(a, p_s, p_n)
         end
       end
 
-      '1.0'.to_d / threads.map(&:value).reduce(:+)
+      result = '1.0'.to_d / processes.map(&:value).reduce(:+)
+      fix(digit, result)
     end
 
     private
 
-    def each_thread(accuracy, thread_size, thread_num)
+    def each_process(accuracy, process_size, process_num)
       f = Proc.new do |x|
-        base = thread_size * x
-        a = (thread_size - 1) * (x % 2)
-        b = thread_num * (1 - (x % 2) * 2)
+        base = process_size * x
+        a = (process_size - 1) * (x % 2)
+        b = process_num * (1 - (x % 2) * 2)
         base + a + b
       end
 
@@ -59,7 +59,7 @@ module SweetPi
         x += 1
         k = f.call(x)
       end
-      sum
+      12 * sum
     end
 
     def calc_accuracy(digit)
