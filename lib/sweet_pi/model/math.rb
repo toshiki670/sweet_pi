@@ -3,7 +3,7 @@
 module SweetPi
   module Math
 
-    # using SweetPi::Math::Fractorial
+    # using SweetPi::Math::Factorial
     module Factorial
       refine Integer do
 
