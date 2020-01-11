@@ -2,6 +2,7 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
 require 'sweet_pi/model/math'
+require 'sweet_pi/model/child_process'
 
 module SweetPi
   class Chudnovsky
@@ -14,24 +15,51 @@ module SweetPi
 
     using SweetPi::Math::Factorial
 
-    def initialize(thread = 1)
-      @thread = thread
-    end
 
-    private
-
-    def single_thread(digit)
+    def single_process(digit)
       accuracy = calc_accuracy(digit)
 
       sum = SweetPi::Math.sum(0, accuracy) do |k|
         Rational(numerator(k), denominator(k))
       end
 
-      '1.0'.to_d / (12 * sum)
+      result = '1.0'.to_d / (12 * sum)
+      fix(digit, result)
     end
 
-    def multi_thread(digit)
+    def multi_process(digit, process_size)
+      accuracy = calc_accuracy(digit)
 
+      processes = []
+      process_size.times do |p_n|
+        processes << SweetPi::ChildProcess.new(accuracy, process_size, p_n) do |a, p_s, p_n|
+          each_process(a, p_s, p_n)
+        end
+      end
+
+      result = '1.0'.to_d / processes.map(&:value).reduce(:+)
+      fix(digit, result)
+    end
+
+    private
+
+    def each_process(accuracy, process_size, process_num)
+      f = Proc.new do |x|
+        base = process_size * x
+        a = (process_size - 1) * (x % 2)
+        b = process_num * (1 - (x % 2) * 2)
+        base + a + b
+      end
+
+      sum = 0
+      x = 0
+      k = f.call(x)
+      while k <= accuracy do
+        sum += Rational(numerator(k), denominator(k))
+        x += 1
+        k = f.call(x)
+      end
+      12 * sum
     end
 
     def calc_accuracy(digit)
@@ -46,17 +74,8 @@ module SweetPi
       k.!**3 * (3 * k).! * C**(3 * k + '1.5'.to_d)
     end
 
-    # WIP インデックスを往復
-    # もし、一方向にxを配置した場合、最初と最後の配列に以下のような差が発生する
-    # 配置する数値の最大をMAXとする
-    #
-    def round_trip(x, idx)
-      if x / idx % 2 == 0
-        x % idx
-      else
-        (idx - 1) - x % idx
-      end
+    def fix(digit, pi)
+      pi.floor(digit)
     end
-
   end
 end
