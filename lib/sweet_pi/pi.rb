@@ -4,8 +4,9 @@ require 'bigdecimal/util'
 require 'sweet_pi/math'
 require 'sweet_pi/process'
 
+# Chudnovskyを用いたPI class
 module SweetPi
-  class Chudnovsky
+  class PI
     A = 13591409.freeze
     B = 545140134.freeze
     C = 640320.freeze
@@ -15,21 +16,56 @@ module SweetPi
 
     using SweetPi::Math::Factorial
 
+    def initialize(process_size = 1)
+      raise ArgumentError unless process_size.is_a?(Integer) and 1 <= process_size
+      @process_size = process_size
+    end
 
-    def single_process(digit)
+    def calc(digit)
+      raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
       accuracy = calc_accuracy(digit)
 
-      sum = SweetPi::Math.sum(0, accuracy) do |k|
-        Rational(numerator(k), denominator(k))
+      result = if @process_size == 1
+        single_process(accuracy)
+      else
+        multi_process(accuracy, @process_size)
       end
 
-      result = '1.0'.to_d / (12 * sum)
+      @prev_acc = accuracy
+      @prev_result = result
+
       fix(digit, result)
     end
 
-    def multi_process(digit, process_size)
+    def calc_next(digit)
+      raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
       accuracy = calc_accuracy(digit)
 
+      if @prev_result == nil
+        calc(digit)
+      elsif @prev_acc&.< accuracy
+        result = @prev_result + single_process(@prev_acc + 1, accuracy)
+
+        @prev_acc = accuracy
+        @prev_result = result
+
+        fix(digit, result)
+      else
+        fix(digit, @prev_result)
+      end
+    end
+
+    private
+
+    def single_process(prev_acc = 0, accuracy)
+      sum = SweetPi::Math.sum(prev_acc, accuracy) do |k|
+        Rational(numerator(k), denominator(k))
+      end
+
+      12 * sum
+    end
+
+    def multi_process(accuracy, process_size)
       processes = []
       process_size.times do |p_n|
         processes << SweetPi::Process.new(accuracy, process_size, p_n) do |a, p_s, p_n|
@@ -37,11 +73,8 @@ module SweetPi
         end
       end
 
-      result = '1.0'.to_d / processes.map(&:value).reduce(:+)
-      fix(digit, result)
+      processes.map(&:value).reduce(:+)
     end
-
-    private
 
     def each_process(accuracy, process_size, process_num)
       f = Proc.new do |x|
@@ -75,6 +108,7 @@ module SweetPi
     end
 
     def fix(digit, pi)
+      pi = '1.0'.to_d / pi
       pi.floor(digit)
     end
   end
