@@ -36,8 +36,8 @@ module SweetPi
 
     private
 
-    def single_process(accuracy)
-      sum = SweetPi::Math.sum(0, accuracy) do |k|
+    def single_process(prev_acc = 0, accuracy)
+      sum = SweetPi::Math.sum(prev_acc, accuracy) do |k|
         Rational(numerator(k), denominator(k))
       end
 
