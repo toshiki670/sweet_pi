@@ -31,7 +31,28 @@ module SweetPi
         multi_process(accuracy, @process_size)
       end
 
+      @prev_acc = accuracy
+      @prev_result = result
+
       fix(digit, result)
+    end
+
+    def calc_next(digit)
+      raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
+      accuracy = calc_accuracy(digit)
+
+      if @prev_result == nil
+        calc(digit)
+      elsif @prev_acc&.< accuracy
+        result = @prev_result + single_process(@prev_acc + 1, accuracy)
+
+        @prev_acc = accuracy
+        @prev_result = result
+
+        fix(digit, result)
+      else
+        fix(digit, @prev_result)
+      end
     end
 
     private
