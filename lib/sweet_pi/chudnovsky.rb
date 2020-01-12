@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'bigdecimal'
 require 'bigdecimal/util'
-require 'sweet_pi/model/math'
-require 'sweet_pi/model/child_process'
+require 'sweet_pi/math'
+require 'sweet_pi/process'
 
 module SweetPi
   class Chudnovsky
@@ -32,7 +32,7 @@ module SweetPi
 
       processes = []
       process_size.times do |p_n|
-        processes << SweetPi::ChildProcess.new(accuracy, process_size, p_n) do |a, p_s, p_n|
+        processes << SweetPi::Process.new(accuracy, process_size, p_n) do |a, p_s, p_n|
           each_process(a, p_s, p_n)
         end
       end
