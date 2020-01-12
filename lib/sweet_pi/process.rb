@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SweetPi
-  class ChildProcess
+  class Process
 
     def initialize(*argv, &block)
       @status_read, @status_write = IO.pipe
