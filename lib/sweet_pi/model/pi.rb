@@ -24,12 +24,16 @@ module SweetPi
     def calc(digit)
       accuracy = calc_accuracy(digit)
 
-      if @thread_size == 1
+      result = if @thread_size == 1
         single_process(accuracy)
       else
         multi_process(accuracy, @thread_size)
       end
+
+      fix(digit, result)
     end
+
+    private
 
     def single_process(accuracy)
       sum = SweetPi::Math.sum(0, accuracy) do |k|
@@ -37,7 +41,6 @@ module SweetPi
       end
 
       result = '1.0'.to_d / (12 * sum)
-      fix(digit, result)
     end
 
     def multi_process(accuracy, process_size)
@@ -49,10 +52,7 @@ module SweetPi
       end
 
       result = '1.0'.to_d / processes.map(&:value).reduce(:+)
-      fix(digit, result)
     end
-
-    private
 
     def each_process(accuracy, process_size, process_num)
       f = Proc.new do |x|
