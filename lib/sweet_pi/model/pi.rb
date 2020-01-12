@@ -16,19 +16,19 @@ module SweetPi
 
     using SweetPi::Math::Factorial
 
-    def initialize(thread_size = 1)
-      raise ArgumentError unless thread_size.is_a?(Integer) and 1 <= thread_size
-      @thread_size = thread_size
+    def initialize(process_size = 1)
+      raise ArgumentError unless process_size.is_a?(Integer) and 1 <= process_size
+      @process_size = process_size
     end
 
     def calc(digit)
       raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
       accuracy = calc_accuracy(digit)
 
-      result = if @thread_size == 1
+      result = if @process_size == 1
         single_process(accuracy)
       else
-        multi_process(accuracy, @thread_size)
+        multi_process(accuracy, @process_size)
       end
 
       fix(digit, result)
