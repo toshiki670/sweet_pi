@@ -22,6 +22,7 @@ module SweetPi
     end
 
     def calc(digit)
+      raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
       accuracy = calc_accuracy(digit)
 
       result = if @thread_size == 1
@@ -40,7 +41,7 @@ module SweetPi
         Rational(numerator(k), denominator(k))
       end
 
-      result = '1.0'.to_d / (12 * sum)
+      12 * sum
     end
 
     def multi_process(accuracy, process_size)
@@ -51,7 +52,7 @@ module SweetPi
         end
       end
 
-      result = '1.0'.to_d / processes.map(&:value).reduce(:+)
+      processes.map(&:value).reduce(:+)
     end
 
     def each_process(accuracy, process_size, process_num)
@@ -86,6 +87,7 @@ module SweetPi
     end
 
     def fix(digit, pi)
+      pi = '1.0'.to_d / pi
       pi.floor(digit)
     end
   end
