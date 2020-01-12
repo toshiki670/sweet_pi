@@ -4,8 +4,9 @@ require 'bigdecimal/util'
 require 'sweet_pi/model/math'
 require 'sweet_pi/model/child_process'
 
+# Chudnovskyを用いたPI class
 module SweetPi
-  class Chudnovsky
+  class PI
     A = 13591409.freeze
     B = 545140134.freeze
     C = 640320.freeze
