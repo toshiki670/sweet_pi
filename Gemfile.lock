@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sweet_pi (0.1.0)
+    sweet_pi (0.1.1)
       thor (~> 0.20.3)
 
 GEM
@@ -38,4 +38,4 @@ DEPENDENCIES
   sweet_pi!
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
