@@ -2,7 +2,7 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
 require 'sweet_pi/math'
-require 'sweet_pi/process'
+require 'sweet_pi/fork'
 
 # Chudnovskyを用いたPI class
 module SweetPi
@@ -68,7 +68,7 @@ module SweetPi
     def multi_process(accuracy, process_size)
       processes = []
       process_size.times do |p_n|
-        processes << SweetPi::Process.new(accuracy, process_size, p_n) do |a, p_s, p_n|
+        processes << SweetPi::Fork.new(accuracy, process_size, p_n) do |a, p_s, p_n|
           each_process(a, p_s, p_n)
         end
       end

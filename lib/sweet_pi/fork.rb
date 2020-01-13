@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SweetPi
-  class Process
+  class Fork
 
     def initialize(*argv, &block)
       @status_read, @status_write = IO.pipe
@@ -18,7 +18,7 @@ module SweetPi
     private
 
     def child_fork(*argv, block)
-      @pid = Process.fork do
+      @pid = fork do
         @value_read.close
 
         status = :run
