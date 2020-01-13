@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Benchmark tool using Pi by Ruby}
   spec.homepage      = "https://github.com/toshiki670/"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  spec.metadata["allowed_push_host"] = "http://mygemserver.com"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
