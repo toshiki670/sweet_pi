@@ -109,7 +109,7 @@ module SweetPi
 
     def fix(digit, pi)
       pi = '1.0'.to_d / pi
-      pi.floor(digit)
+      pi.truncate(digit)
     end
   end
 end
