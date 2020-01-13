@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'bigdecimal'
 require 'bigdecimal/util'
-require 'sweet_pi/model/math'
-require 'sweet_pi/model/child_process'
+require 'sweet_pi/math'
+require 'sweet_pi/fork'
 
 # Chudnovskyを用いたPI class
 module SweetPi
@@ -68,7 +68,7 @@ module SweetPi
     def multi_process(accuracy, process_size)
       processes = []
       process_size.times do |p_n|
-        processes << SweetPi::ChildProcess.new(accuracy, process_size, p_n) do |a, p_s, p_n|
+        processes << SweetPi::Fork.new(accuracy, process_size, p_n) do |a, p_s, p_n|
           each_process(a, p_s, p_n)
         end
       end
@@ -109,7 +109,7 @@ module SweetPi
 
     def fix(digit, pi)
       pi = '1.0'.to_d / pi
-      pi.floor(digit)
+      pi.truncate(digit)
     end
   end
 end

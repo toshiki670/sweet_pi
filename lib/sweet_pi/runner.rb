@@ -12,7 +12,7 @@ module SweetPi
     option :result, aliases: :r, type: :string, desc: "Output of Processing result. standard output if not setting."
     def calc_pi
       puts "test"
-      options[:from]} if options[:from]
+      options[:from] if options[:from]
     end
 
     map %w[--version -v] => :version
