@@ -1,48 +1,48 @@
 # frozen_string_literal: true
 require 'sweet_pi/version'
 require 'sweet_pi/runner'
-require 'thor'
+require 'sweet_pi/pi'
 
-# 実験用にRequireしているだけ
-require 'sweet_pi/model/chudnovsky'
-require 'sweet_pi/model/math'
-require 'benchmark'
+require 'bigdecimal'
+require 'bigdecimal/util'
 
 
 module SweetPi
-  class << self
+  class Generator
 
-    def test1(options = {})
-      @data = data
-      p data
+    def initialize(process_size = 1)
+      raise ArgumentError unless process_size.is_a?(Integer) and 1 <= process_size
+      @pi = SweetPi::PI.new(process_size)
+
+      @from = 0
+      @to = 2
     end
 
-    def test3
-      x = 10
-      y = 10
-
-      r1 = Benchmark.realtime do
-        x.times do
-          SweetPi::Chudnovsky.single(y)
-        end
-      end
-
-      r2 = Benchmark.realtime do
-        x.times do
-          SweetPi::Chudnovsky.single2(y)
-        end
-      end
-
-      r3 = Benchmark.realtime do
-        x.times do
-          SweetPi::Chudnovsky.single3(y)
-        end
-      end
-
-      p r1
-      p r2
-      p r3
+    def range(from = 0, to)
+      @from = from
+      @to = to
+      self
     end
 
+    def calc
+      @value = @pi.calc(@to)
+      self
+    end
+
+    def each_char
+      self.calc.to_s.each_char do |c|
+        yield c
+      end
+
+      self
+    end
+
+    def to_s
+      from = @from + 1 if 1 <= @from
+      to = @to + 2
+
+      @value ||= Math::PI.to_d
+      @value.to_s('f')[from..to]
+    end
   end
 end
