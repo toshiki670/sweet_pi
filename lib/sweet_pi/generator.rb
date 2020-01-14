@@ -17,7 +17,6 @@ module SweetPi
     end
 
     def process_count=(count)
-      raise ArgumentError unless count.is_a?(Integer) and 1 <= count
       @pi.process_count = count
     end
 
