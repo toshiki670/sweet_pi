@@ -13,8 +13,11 @@ module SweetPi
     option :output, aliases: :o, type: :string, required: :true, desc: "Output destination."
     option :result, aliases: :r, type: :string, desc: "Output of Processing result. standard output if not setting."
     def calc_pi
-      puts "test"
-      options[:from] if options[:from]
+      pi = SweetPi::Generator.new
+
+      pi.range(options[:digit]) if options[:digit]
+      pi.process_count = options[:process] if options[:process]
+
     end
 
     map %w[--version -v] => :version
