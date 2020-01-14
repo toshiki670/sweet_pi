@@ -63,7 +63,7 @@ module SweetPi
 
     def single_process(prev_acc = 0, accuracy)
       sum = SweetPi::Math.sum(prev_acc, accuracy) do |k|
-        Rational(numerator(k), denominator(k))
+        chudnovsky(k)
       end
 
       12 * sum
@@ -92,7 +92,7 @@ module SweetPi
       x = 0
       k = f.call(x)
       while k <= accuracy do
-        sum += Rational(numerator(k), denominator(k))
+        sum += chudnovsky(k)
         x += 1
         k = f.call(x)
       end
@@ -103,12 +103,11 @@ module SweetPi
       (digit / DIGIT_PER_ACCURACY).ceil.to_i
     end
 
-    def numerator(k)
-      (-1)**k * (6 * k).! * (A + B * k)
-    end
+    def chudnovsky(k)
+      numerator = (-1)**k * (6 * k).! * (A + B * k)
+      denominator = k.!**3 * (3 * k).! * C**(3 * k + '1.5'.to_d)
 
-    def denominator(k)
-      k.!**3 * (3 * k).! * C**(3 * k + '1.5'.to_d)
+      Rational(numerator, denominator)
     end
 
     def fix(digit, pi)
