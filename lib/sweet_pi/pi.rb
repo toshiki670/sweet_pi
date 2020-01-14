@@ -16,19 +16,23 @@ module SweetPi
 
     using SweetPi::Math::Factorial
 
-    def initialize(process_size = 1)
-      raise ArgumentError unless process_size.is_a?(Integer) and 1 <= process_size
-      @process_size = process_size
+    def initialize()
+      @process_count = 1
+    end
+
+    def process_count=(count)
+      raise ArgumentError unless count.is_a?(Integer) and 1 <= count
+      @process_count = count
     end
 
     def calc(digit)
       raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
       accuracy = calc_accuracy(digit)
 
-      result = if @process_size == 1
+      result = if @process_count == 1
         single_process(accuracy)
       else
-        multi_process(accuracy, @process_size)
+        multi_process(accuracy, @process_count)
       end
 
       @prev_acc = accuracy
@@ -65,10 +69,10 @@ module SweetPi
       12 * sum
     end
 
-    def multi_process(accuracy, process_size)
+    def multi_process(accuracy, process_count)
       processes = []
-      process_size.times do |p_n|
-        processes << SweetPi::Fork.new(accuracy, process_size, p_n) do |a, p_s, p_n|
+      process_count.times do |p_n|
+        processes << SweetPi::Fork.new(accuracy, process_count, p_n) do |a, p_s, p_n|
           each_process(a, p_s, p_n)
         end
       end
@@ -76,10 +80,10 @@ module SweetPi
       processes.map(&:value).reduce(:+)
     end
 
-    def each_process(accuracy, process_size, process_num)
+    def each_process(accuracy, process_count, process_num)
       f = Proc.new do |x|
-        base = process_size * x
-        a = (process_size - 1) * (x % 2)
+        base = process_count * x
+        a = (process_count - 1) * (x % 2)
         b = process_num * (1 - (x % 2) * 2)
         base + a + b
       end
