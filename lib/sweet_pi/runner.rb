@@ -1,5 +1,7 @@
+# frozen_string_literal: true
 require 'thor'
 require 'sweet_pi/version'
+require 'sweet_pi/generator'
 
 module SweetPi
   class Runner < Thor
