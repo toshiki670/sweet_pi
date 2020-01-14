@@ -18,7 +18,7 @@ module SweetPi
     map %w[--version -v] => :version
     desc '--version, -v', 'print the version'
     def version
-      puts VERSION
+      puts SweetPi::VERSION
     end
 
   end
