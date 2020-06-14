@@ -2,3 +2,5 @@
 # frozen_string_literal: true
 
 require 'sweet_pi'
+
+SweetPi::Runner.start(ARGV)
