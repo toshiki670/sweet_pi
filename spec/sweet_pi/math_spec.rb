@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 
 using SweetPi::Math::Factorial
@@ -15,7 +16,7 @@ RSpec.describe Math do
       end
 
       it 'is 100!' do
-        expect(100.!).to eq(93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000)
+        expect(100.!).to eq(93_326_215_443_944_152_681_699_238_856_266_700_490_715_968_264_381_621_468_592_963_895_217_599_993_229_915_608_941_463_976_156_518_286_253_697_920_827_223_758_251_185_210_916_864_000_000_000_000_000_000_000_000)
       end
     end
 
@@ -43,14 +44,13 @@ RSpec.describe Math do
 
     context 'When argument' do
       it 'is minus' do
-        expect{10.!(-1)}.to raise_error('ArgumentError')
+        expect { 10.!(-1) }.to raise_error('ArgumentError')
       end
 
       it "isn't Integer" do
-        expect{10.!('2')}.to raise_error('ArgumentError')
-        expect{10.!(1.5)}.to raise_error('ArgumentError')
+        expect { 10.!('2') }.to raise_error('ArgumentError')
+        expect { 10.!(1.5) }.to raise_error('ArgumentError')
       end
     end
   end
 end
-
