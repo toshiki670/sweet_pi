@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'sweet_pi'
   spec.version       = SweetPi::VERSION
   spec.authors       = ['Toshiki']
-  spec.email         = ['toshiki.k.000@gmail.com']
+  spec.email         = ['toshiki.dev@protonmail.ch']
   spec.license       = 'GPL-3.0'
 
   spec.summary       = 'Calculation Pi'
