@@ -7,49 +7,61 @@ using SweetPi::Math::Factorial
 RSpec.describe Math do
   describe "Factorial's" do
     context 'Single' do
-      it 'is 0!' do
-        expect(0.!).to eq(1)
+      subject { num.! }
+      context 'when 0!' do
+        let(:num) { 0 }
+        it { is_expected.to eq(1) }
       end
-
-      it 'is 1!' do
-        expect(1.!).to eq(1)
+      context 'when 1!' do
+        let(:num) { 1 }
+        it { is_expected.to eq(1) }
       end
-
-      it 'is 100!' do
-        expect(100.!).to eq(93_326_215_443_944_152_681_699_238_856_266_700_490_715_968_264_381_621_468_592_963_895_217_599_993_229_915_608_941_463_976_156_518_286_253_697_920_827_223_758_251_185_210_916_864_000_000_000_000_000_000_000_000)
+      context 'when 100!' do
+        let(:num) { 100 }
+        it { is_expected.to eq(93_326_215_443_944_152_681_699_238_856_266_700_490_715_968_264_381_621_468_592_963_895_217_599_993_229_915_608_941_463_976_156_518_286_253_697_920_827_223_758_251_185_210_916_864_000_000_000_000_000_000_000_000) }
       end
     end
 
     context 'Multi' do
-      it 'is 0!!' do
-        expect(0.!(2)).to eq(1)
+      subject { num.!(multi) }
+      let(:multi) { 2 }
+      context 'when 0!!' do
+        let(:num) { 0 }
+        it { is_expected.to eq(1) }
       end
-
-      it 'is 1!!' do
-        expect(1.!(2)).to eq(1)
+      context 'when 1!!' do
+        let(:num) { 1 }
+        it { is_expected.to eq(1) }
       end
-
-      it 'is 9!!' do
-        expect(9.!(2)).to eq(945)
+      context 'when 9!!' do
+        let(:num) { 9 }
+        it { is_expected.to eq(945) }
       end
-
-      it 'is 8!!' do
-        expect(8.!(2)).to eq(384)
+      context 'when 8!!' do
+        let(:num) { 8 }
+        it { is_expected.to eq(384) }
       end
-
-      it 'is 10!!!' do
-        expect(10.!(3)).to eq(280)
+      context 'when 10!!!' do
+        let(:num) { 10 }
+        let(:multi) { 3 }
+        it { is_expected.to eq(280) }
       end
     end
 
     context 'When argument' do
-      it 'is minus' do
-        expect { 10.!(-1) }.to raise_error('ArgumentError')
+      subject { -> { num.!(multi) } }
+      let(:num) { 10 }
+      context 'when minus' do
+        let(:multi) { -1 }
+        it { is_expected.to raise_error('ArgumentError') }
       end
-
-      it "isn't Integer" do
-        expect { 10.!('2') }.to raise_error('ArgumentError')
-        expect { 10.!(1.5) }.to raise_error('ArgumentError')
+      context 'when String' do
+        let(:multi) { 'String' }
+        it { is_expected.to raise_error('ArgumentError') }
+      end
+      context 'when Float' do
+        let(:multi) { 1.5 }
+        it { is_expected.to raise_error('ArgumentError') }
       end
     end
   end

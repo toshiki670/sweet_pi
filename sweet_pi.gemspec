@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
   spec.name          = 'sweet_pi'
   spec.version       = SweetPi::VERSION
   spec.authors       = ['Toshiki']
-  spec.email         = ['toshiki.k.000@gmail.com']
+  spec.email         = ['toshiki.dev@protonmail.ch']
   spec.license       = 'GPL-3.0'
 
   spec.summary       = 'Calculation Pi'
   spec.description   = 'Generate infinite pi'
   spec.homepage      = 'https://github.com/toshiki670/'
 
-  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
