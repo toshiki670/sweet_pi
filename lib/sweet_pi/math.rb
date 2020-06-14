@@ -2,20 +2,19 @@
 
 module SweetPi
   module Math
-
     # using SweetPi::Math::Factorial
     module Factorial
       refine Integer do
-
         def !(step = 1)
-          raise ArgumentError unless step.is_a?(Integer) and 1 <= step
+          raise ArgumentError unless step.is_a?(Integer) && (step >= 1)
 
           if step == 1
             (1..self).reduce(1, :*)
           else
             sum = 1
-            self.downto(2).each_with_index do |n, idx|
+            downto(2).each_with_index do |n, idx|
               next if idx % step != 0
+
               sum *= n
             end
             sum

@@ -1,13 +1,12 @@
 # frozen_string_literal: true
+
 require 'sweet_pi/pi'
 
 require 'bigdecimal'
 require 'bigdecimal/util'
 
-
 module SweetPi
   class Generator
-
     def initialize(process_count = 1)
       @pi = SweetPi::PI.new
       @pi.process_count = process_count
@@ -32,7 +31,7 @@ module SweetPi
     end
 
     def each_char
-      self.calc.to_s.each_char do |c|
+      calc.to_s.each_char do |c|
         yield c
       end
 
@@ -40,7 +39,7 @@ module SweetPi
     end
 
     def to_s
-      from = @from + 1 if 1 <= @from
+      from = @from + 1 if @from >= 1
       to = @to + 2
 
       @value ||= Math::PI.to_d
