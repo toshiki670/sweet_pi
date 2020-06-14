@@ -1,10 +1,9 @@
-# SweetPi
 <a href="LICENSE" alt="GPL-3.0"><img alt="GitHub" src="https://img.shields.io/github/license/toshiki670/sweet_pi?style=flat-square"></a>
+<a href="https://github.com/toshiki670/sweet_pi/actions" alt="Check action"><img alt="GitHub" src="https://img.shields.io/github/workflow/status/toshiki670/sweet_pi/Ruby?label=Ruby&style=flat-square"></a>
+<a href="https://rubygems.org/gems/sweet_pi" alt="Rubygems"><img alt="GitHub" src="https://img.shields.io/gem/dt/sweet_pi?style=flat-square"></a>
+<a href="https://rubygems.org/gems/sweet_pi" alt="Rubygems"><img alt="GitHub" src="https://img.shields.io/gem/v/sweet_pi?style=flat-square"></a>
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sweet_pi`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
+# SweetPi
 ## Installation
 
 Add this line to your application's Gemfile:
