@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require "bundler/setup"
-require "sweet_pi"
-require "pry"
+require 'bundler/setup'
+require 'sweet_pi'
+require 'pry'
 
 Pry.start

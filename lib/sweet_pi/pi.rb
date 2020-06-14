@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'bigdecimal'
 require 'bigdecimal/util'
 require 'sweet_pi/math'
@@ -7,32 +8,34 @@ require 'sweet_pi/fork'
 # Chudnovskyを用いたPI class
 module SweetPi
   class PI
-    A = 13591409.freeze
-    B = 545140134.freeze
-    C = 640320.freeze
+    A = 13_591_409
+    B = 545_140_134
+    C = 640_320
 
-    DIGIT_PER_ACCURACY = 14.1816474627.freeze
+    DIGIT_PER_ACCURACY = 14.1816474627
     private_constant :A, :B, :C, :DIGIT_PER_ACCURACY
 
     using SweetPi::Math::Factorial
 
-    def initialize()
+    def initialize
       @process_count = 1
     end
 
     def process_count=(count)
-      raise ArgumentError unless count.is_a?(Integer) and 1 <= count
+      raise ArgumentError unless count.is_a?(Integer) && (count >= 1)
+
       @process_count = count
     end
 
     def calc(digit)
-      raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
+      raise ArgumentError unless digit.is_a?(Integer) && (digit >= 1)
+
       accuracy = calc_accuracy(digit)
 
       result = if @process_count == 1
-        single_process(accuracy)
-      else
-        multi_process(accuracy, @process_count)
+                 single_process(accuracy)
+               else
+                 multi_process(accuracy, @process_count)
       end
 
       @prev_acc = accuracy
@@ -42,10 +45,11 @@ module SweetPi
     end
 
     def calc_next(digit)
-      raise ArgumentError unless digit.is_a?(Integer) and 1 <= digit
+      raise ArgumentError unless digit.is_a?(Integer) && (digit >= 1)
+
       accuracy = calc_accuracy(digit)
 
-      if @prev_result == nil
+      if @prev_result.nil?
         calc(digit)
       elsif @prev_acc&.< accuracy
         result = @prev_result + single_process(@prev_acc + 1, accuracy)
@@ -81,7 +85,7 @@ module SweetPi
     end
 
     def each_process(accuracy, process_count, process_num)
-      f = Proc.new do |x|
+      f = proc do |x|
         base = process_count * x
         a = (process_count - 1) * (x % 2)
         b = process_num * (1 - (x % 2) * 2)
@@ -91,7 +95,7 @@ module SweetPi
       sum = 0
       x = 0
       k = f.call(x)
-      while k <= accuracy do
+      while k <= accuracy
         sum += chudnovsky(k)
         x += 1
         k = f.call(x)
