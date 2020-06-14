@@ -36,7 +36,7 @@ module SweetPi
                  single_process(accuracy)
                else
                  multi_process(accuracy, @process_count)
-      end
+               end
 
       @prev_acc = accuracy
       @prev_result = result
@@ -76,8 +76,8 @@ module SweetPi
     def multi_process(accuracy, process_count)
       processes = []
       process_count.times do |p_n|
-        processes << SweetPi::Fork.new(accuracy, process_count, p_n) do |a, p_s, p_n|
-          each_process(a, p_s, p_n)
+        processes << SweetPi::Fork.new(accuracy, process_count, p_n) do |a, p_s, p_n_i|
+          each_process(a, p_s, p_n_i)
         end
       end
 

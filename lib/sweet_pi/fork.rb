@@ -29,8 +29,8 @@ module SweetPi
         status = false
       rescue => e
         raise e
-        status = nil
-        result = nil
+        # status = nil
+        # result = nil
       ensure
         Marshal.dump(status, @status_write)
         Marshal.dump(result, @value_write)

@@ -19,7 +19,7 @@ module SweetPi
       @pi.process_count = count
     end
 
-    def range(from = 0, to)
+    def range(from: 0, to:)
       @from = from
       @to = to
       self
