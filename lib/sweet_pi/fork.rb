@@ -27,7 +27,7 @@ module SweetPi
         result = block.call(*argv)
 
         status = false
-      rescue => e
+      rescue StandardError => e
         raise e
         # status = nil
         # result = nil
